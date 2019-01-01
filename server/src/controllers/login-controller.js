@@ -5,11 +5,11 @@ const loginController = async (req, res, next) => {
 
   try {
     const user = await User.getByEmail(email)
-    const isValid = await user.checkPassword(password)
+    await user.checkPassword(password)
     
     res.status(200).json(user.clear())
   } catch (err) {
-    res.status(404).json(err)
+    res.status(403).json(err)
   }
 }
 
