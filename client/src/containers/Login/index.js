@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import LoginForm from '../../components/LoginForm'
+import React from 'react'
+import { connect } from 'react-redux'
 
-const Login = () => {
+import LoginForm from '../../components/LoginForm'
+import { loginRequest } from '../../actions/user-actions'
+
+const Login = ({ loginRequest, user }) => {
   return (
-    <LoginForm />
+    <LoginForm 
+      handleSubmit={loginRequest}
+      errors={user.errors}
+    />
   )
 }
 
-export default Login
+export default connect(
+  ({ user }) => ({ user }),
+  { loginRequest }
+)(Login)

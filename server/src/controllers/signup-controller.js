@@ -7,9 +7,9 @@ const signupController = async (req, res) => {
     const newUser = await User.create(req.body)
 
     res.set('Authorization', `Bearer ${generateToken(newUser)}`)
-    res.status(201).json(newUser.clear())
+    res.status(201).json({ data: newUser.clear(), success: true })
   } catch (err) {
-    res.status(422).json(err)
+    res.status(422).json({ errors: err })
   }
 }
 

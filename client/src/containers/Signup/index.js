@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import SignupForm from '../../components/SignupForm'
+import React from 'react'
+import { connect } from 'react-redux'
 
-const Signup = () => {
+import SignupForm from '../../components/SignupForm'
+import { signupRequest } from '../../actions/user-actions'
+
+const Signup = ({ signupRequest, user }) => {
   return (
-    <SignupForm />
+    <SignupForm 
+      handleSubmit={signupRequest}
+      errors={user.errors}
+    />
   )
 }
 
-export default Signup
+export default connect(
+  ({ user }) => ({ user }),
+  { signupRequest }
+)(Signup)

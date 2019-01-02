@@ -2,6 +2,7 @@ import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 
 axios.defaults.timeout = 10000
+axios.defaults.validateStatus = status => status < 500
 
 axios.interceptors.request.use(config => {
     const token = sessionStorage.getItem('token')

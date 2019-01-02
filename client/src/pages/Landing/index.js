@@ -3,10 +3,13 @@ import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import classNames from 'classnames'
+import { connect } from 'react-redux'
 
+import { resetUser } from '../../actions'
 import Signup from '../../containers/Signup'
 import Login from '../../containers/Login'
+
+// TODO: mevcut yapıyı bozmadan signup ve login errorları ayırmanın bir yöntemini bul
 
 const styles = theme => ({
   root: {
@@ -34,7 +37,7 @@ const styles = theme => ({
   }
 })
 
-const LandingPage = ({ classes }) => {
+const LandingPage = ({ classes, resetUser }) => {
   const [activeTab, setActiveTab] = useState(0)
 
   return (
@@ -48,21 +51,25 @@ const LandingPage = ({ classes }) => {
             className={classes.tabs} 
             fullWidth 
             value={activeTab} 
-            onChange={(e, newValue) => setActiveTab(newValue)}
+            onChange={(e, newValue) => {
+              resetUser()
+              setActiveTab(newValue)
+            }}
           >
             <Tab label="Login" />
             <Tab label="Sign up" />
           </Tabs>
-          <div className={classNames(classes.content, { [classes.hidden]: activeTab === 1 })}>
-            <Login />
-          </div>
-          <div className={classNames(classes.content, { [classes.hidden]: activeTab === 0 })}>
-            <Signup />
-          </div>
+          {
+            (activeTab === 0 && <Login />) ||
+            (activeTab === 1 && <Signup />)
+          }
         </Card>
       </div>
     </div>
   )
 }
 
-export default withStyles(styles)(LandingPage)
+export default connect(
+  null,
+  { resetUser }
+)(withStyles(styles)(LandingPage))

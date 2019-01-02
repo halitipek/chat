@@ -34,7 +34,7 @@ const styles = (theme) => ({
   }
 })
 
-const SignupForm = ({ handleSubmit, form, classes, errors }) => {
+const SignupForm = ({ handleSubmit, errors, form, classes }) => {
   const [rememberMe, setRememberMe] = useState(false)
 
   const fieldGenerator = ({ name, label, rules, type = 'text', value = '' }) => {
@@ -66,7 +66,7 @@ const SignupForm = ({ handleSubmit, form, classes, errors }) => {
     form.validateFields((err, values) => {
       if (!err) {
         Object.keys(values).forEach(key => values[key] = values[key].trim())
-
+        
         handleSubmit({ ...values, rememberMe })
       }
     }, { force: true })
@@ -76,7 +76,7 @@ const SignupForm = ({ handleSubmit, form, classes, errors }) => {
     const fieldsValues = form.getFieldsValue()
     const newFields = {}
 
-    errors.forEach(error => {
+    errors && errors.forEach(error => {
       newFields[error.name] = {
         value: fieldsValues[error.name],
         errors: error.messages.map(mes => new Error(mes))
@@ -90,12 +90,12 @@ const SignupForm = ({ handleSubmit, form, classes, errors }) => {
     <form className={classes.form} autoComplete="off" noValidate onSubmit={submitValidation}>
       <div className={classes.row}>
         {fieldGenerator({
-          name: 'firstname',
+          name: 'firstName',
           label: 'First Name',
           rules: [{ required: true, message: 'This field is required!' }]
         })}
         {fieldGenerator({
-          name: 'lastname',
+          name: 'lastName',
           label: 'Last Name',
           rules: [{ required: true, message: 'This field is required!' }]
         })}
@@ -127,7 +127,7 @@ const SignupForm = ({ handleSubmit, form, classes, errors }) => {
           label: 'Password',
           rules: [
             { required: true, message: 'This field is required' },
-            { min: 6, max: 24, message: 'Password must be at least 8, maximum 24 chars!'},
+            { min: 6, max: 24, message: 'Password must be at least 6, maximum 24 chars!'},
             { validator: validationRules.compareBy(form), reference: 'confirmPassword' }
           ],
           type: 'password'

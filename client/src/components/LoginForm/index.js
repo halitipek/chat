@@ -88,7 +88,7 @@ const LoginForm = ({ handleSubmit, form, classes, errors }) => {
     const fieldsValues = form.getFieldsValue()
     const newFields = {}
 
-    errors.forEach(error => {
+    errors && errors.forEach(error => {
       newFields[error.name] = {
         value: fieldsValues[error.name],
         errors: error.messages.map(mes => new Error(mes))
@@ -114,6 +114,7 @@ const LoginForm = ({ handleSubmit, form, classes, errors }) => {
           name: 'password',
           label: 'Password',
           rules: [{ required: true, message: 'This field is required!' }],
+          type: 'password',
           icon: <Lock />
         })}
       </div>

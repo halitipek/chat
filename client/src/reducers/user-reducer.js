@@ -20,13 +20,13 @@ export default (state = INITIAL_STATE, { type, payload }) => {
     case constants.USER_SIGNUP_FAILURE:
       return { ...INITIAL_STATE, errors: payload }
   
-    case constants.USER_SIGNIN_REQUEST:
+    case constants.USER_LOGIN_REQUEST:
       return { ...INITIAL_STATE }
 
-    case constants.USER_SIGNIN_SUCCESS:
+    case constants.USER_LOGIN_SUCCESS:
       return { ...INITIAL_STATE, isAuth: true, data: payload }
 
-    case constants.USER_SIGNIN_FAILURE:
+    case constants.USER_LOGIN_FAILURE:
       return { ...INITIAL_STATE, errors: payload }
 
     case constants.USER_AUTH_REQUEST:
@@ -38,14 +38,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
     case constants.USER_AUTH_FAILURE:
       return { ...INITIAL_STATE, errors: payload }
 
-    case constants.USER_SIGNOUT_REQUEST:
-      return { ...state }
-
-    case constants.USER_SIGNOUT_SUCCESS:
+    case constants.USER_LOGOUT:
       return { ...INITIAL_STATE }
-
-    case constants.USER_SIGNOUT_FAILURE:
-      return { ...state, errors: payload }
 
     default:
       return state

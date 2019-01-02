@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 
 import rootReducer from '../reducers'
-// import rootSaga from '../sagas'
+import rootSaga from '../sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 const enhancers = []
@@ -30,7 +30,7 @@ const store = createStore(
   composedEnhancers
 )
 
-// sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga)
 
 const StoreProvider = ({ children }) => (
   <Provider store={store}>

@@ -71,7 +71,7 @@ UserSchema.methods.checkPassword = function (password) {
       return res(true)
     }
 
-    return rej({ type: 'wrong', messages: ['Wrong password'], name: 'password' })
+    return rej([{ type: 'wrong', messages: ['Wrong password'], name: 'password' }])
   })
 }
 // Statics
@@ -83,7 +83,7 @@ UserSchema.statics.getById = function (userId) {
       return res(arr[0])
     }
 
-    return rej({ type: 'not_found', messages: ['User not found!'], name: 'userId' })
+    return rej([{ type: 'not_found', messages: ['User not found!'], name: 'userId' }])
   })
 }
 
@@ -95,7 +95,7 @@ UserSchema.statics.getByUsername = function (username) {
       return res(match[0])
     }
 
-    return rej({ type: 'not_found', messages: ['User not found!'], name: 'username' })
+    return rej([{ type: 'not_found', messages: ['User not found!'], name: 'username' }])
   })
 }
 
@@ -107,7 +107,7 @@ UserSchema.statics.getByEmail = function (email) {
       return res(match[0])
     }
 
-    return rej({ type: 'not_found', messages: ['User not found!'], name: 'email' })
+    return rej([{ type: 'not_found', messages: ['User not found!'], name: 'email' }])
   })
 }
 
