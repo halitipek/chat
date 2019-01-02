@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
-import * as utils from '../utils'
 import omit from 'lodash/omit'
+
+import Counter from './counter-model'
+import * as utils from '../utils'
 
 const UserSchema = new mongoose.Schema({
   userId: {
@@ -48,20 +50,7 @@ const UserSchema = new mongoose.Schema({
 
 // Methods
 UserSchema.methods.clear = function () {
-  return omit(this.toObject(), ['password', '_id', '__v', 'rememberMe'])
-}
-
-UserSchema.methods.generateId = function () {
-  return new Promise(async (res, rej) => {
-    const lastUser = await this.model('User').find({}, 'userId').sort('-userId').limit(1).lean()
-
-    if (lastUser[0]) {
-      const newUserId = lastUser[0].userId + 1
-      return res(newUserId)
-    }
-
-    return res(1)
-  })  
+  return omit(this.toObject(), ['password', '_id', '__v'])
 }
 
 UserSchema.methods.checkPassword = function (password) {
@@ -139,7 +128,7 @@ UserSchema.statics.isAvailable = function ({ username, email }) {
 UserSchema.pre('save', async function () {
   if (this.isNew) {
     this.password = await utils.encrypt(this.password)
-    this.userId = await this.generateId()
+    this.userId = await Counter.generateSeq('Users')
   }
 })
 
